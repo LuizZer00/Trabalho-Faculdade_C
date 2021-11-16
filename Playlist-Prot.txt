@@ -1,0 +1,122 @@
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<string.h> 
+#include<locale.h> //importando bibliotecas 
+void inserir(); //declarando as funções 
+void listar(); 
+int c; 
+struct ElementoDaLista_Simples { //criando minha lista 
+encadeada simples, não circular 
+    char nome[40], cantor[40]; //declarando variáveis 
+da lista 
+ 
+    float duracao; 
+    struct ElementoDaLista_Simples* prox; //declarando 
+ponteiro para o próximo elemento 
+ 
+} *Head;  //criando meu Head 
+int main() { 
+    setlocale(LC_ALL, "Portuguese"); 
+    int op = 0; 
+    printf("\t--------------------\n"); 
+    printf("\t|--*MUSIC PLAYER*--|\n"); 
+    printf("\t--------------------\n\n"); 
+ 
+    printf("1-Ver Playlist.\n\n"); 
+    printf("2-Adicionar Musica à Playlist.\n\n");  
+    printf("3-Encerrar programa.\n\n"); 
+ 
+ 
+    while (1) { 
+        printf("\nSelecione uma opção:");    
+        scanf_s("%d", &op); 
+        while ((c = getchar()) != '\n' && c != EOF) {} 
+//limpando buffer do teclado 
+        if (op == 3) {   
+            printf("Encerrando programa...\n"); 
+            exit(1); //encerrando programa 
+        } 
+        if (op == 2) { 
+            inserir(); //chamando na memória principal 
+a função de inserção 
+            continue; 
+        } 
+        if (op == 1) { 
+            listar(); //chamando na memória principal 
+a função de listagem 
+            continue; 
+        } 
+        return 0; 
+    } 
+} 
+void inserir() {  //função de inserção na lista 
+    struct ElementoDaLista_Simples* NovoElemento;  
+//criando um novo elemento do registro 
+ 
+    NovoElemento = (struct 
+ElementoDaLista_Simples*)malloc(sizeof(struct 
+ElementoDaLista_Simples));//alocando o novo elemento 
+na memória 
+    fflush(stdin);  //limpando o buffer 
+    printf("\nMusica:"); 
+    fgets(NovoElemento->nome, 29, stdin); //capturando 
+o nome da música 
+    fflush(stdin); //limpando o buffer 
+    printf("\nArtista:"); 
+    fgets(NovoElemento->cantor, 29, stdin); 
+//capturando o nome do artista 
+ 
+    printf("\nDuração(ex:0,00):"); 
+    scanf_s("%f", &NovoElemento->duracao); 
+//capturando a duração da música 
+    if (Head == NULL) {  //se meu Head for nulo 
+        Head = NovoElemento;  //head vai receber o 
+novo elemento 
+        Head->prox = NULL;    //e o meu proximo 
+elemento vai ser nulo 
+ 
+    } 
+    else {  //se meu head não for nulo 
+        NovoElemento->prox = Head; //meu próximo 
+elemento vai receber o valor de head 
+        Head = NovoElemento;  //e meu head vai ser o 
+novo elemento capturado 
+ 
+    } 
+} 
+void listar() { //função de listagem 
+    int cont = 1; 
+    struct ElementoDaLista_Simples* ElementoVarredura; 
+//criando novo elemento do registro 
+    ElementoVarredura = (struct 
+ElementoDaLista_Simples*)malloc(sizeof(struct 
+ElementoDaLista_Simples)); //alocando na memória 
+    ElementoVarredura = Head;  //meu elemento que vai 
+varrer a llista recebe o head 
+    while (ElementoVarredura == NULL) {  //enquanto 
+meu elemento de varredura for nulo 
+ 
+        printf("\nPlaylist Vázia!.\n");  //imprimir na 
+tela que a playlist está vázia 
+ 
+        return; 
+ 
+    } 
+    while (ElementoVarredura != NULL) {  //enquanto 
+meu elemento de varredura for diferente de nulo 
+        printf("\n%d- ", cont); 
+        printf("Música: %s.\n", ElementoVarredura-
+>nome);  //imprimir na tela o nome 
+        printf("   Artista: %s. \n", 
+ElementoVarredura->cantor); //o artista 
+        printf("   Duração: %.2f Minutos/Segundos.", 
+ElementoVarredura->duracao);//e a duração da Música 
+        printf("\n"); 
+        ElementoVarredura = ElementoVarredura->prox; 
+//elemento de varredura vai passar para o próximo 
+elemento 
+        cont += 1; 
+    } 
+ 
+ 
+}

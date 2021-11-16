@@ -1,0 +1,176 @@
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<locale.h>//declarando bibliotecas 
+void inserir(struct arvore** varredura, int 
+ru);//declarando funções 
+void consultar(struct arvore* varredura); 
+int busca(struct arvore* varredura,int ru); 
+struct arvore{  //criando árvore binária 
+ char nome[30], email[30]; //declarando variáveis 
+ 
+ int ru; 
+ struct arvore *esq, *dir; //declarando ponteiros 
+para esquerda e para direita 
+ 
+ 
+ 
+}; 
+int main() { 
+ setlocale(LC_ALL, "Portuguese"); 
+ int op, ru,c; 
+ struct arvore *root; //criando nó raiz(root) 
+ root = (struct arvore*)malloc(sizeof(struct 
+arvore));  //alocando root na memória 
+ root = NULL;  //definindo o root como nulo 
+ printf("  AVA UNIVIRTUS  \n\n"); 
+ printf("1- Inserir Na Árvore.\n"); 
+ printf("2- Buscar Na Árvore.\n"); 
+ printf("3- Consultar em Ordem.\n"); 
+ printf("4- Encerrar Programa.\n"); 
+ while (1) { 
+  printf("\nOpção:"); 
+  scanf_s("%d", &op); 
+  if (op == 1) { 
+   printf("Digite o RU: "); 
+   scanf_s("%d", &ru); //capturando o ru 
+para inserção 
+   while ((c = getchar()) != '\n' && c != 
+EOF) {}//limpando buffer 
+   inserir(&root, ru);  //chamando a função 
+de inserção na memória principal passando como 
+parâmetro o endereço meu nó raiz e meu ru 
+  } 
+  if (op == 2) { 
+   printf("Digite o RU:"); 
+   scanf_s("%d", &ru); //capturando ru para 
+busca 
+   busca(root,ru); //chamando função de 
+busca na memória principal passando como parâmetro meu 
+nó raiz e meu ru 
+    
+  } 
+  if (op == 3) { 
+ 
+   printf("\n"); 
+   consultar(root);  //chamando função de 
+consulta na memória principal passando como parâmetro 
+o nó raiz 
+   printf("\n"); 
+    
+  } 
+  if (op == 4) { 
+   printf("Encerrando Programa.."); 
+   exit(1);  //encerrando programa 
+   
+  } 
+ 
+ } 
+ return 0; 
+} 
+void inserir(struct arvore **varredura, int ru) { 
+//criando função de inserção  
+ if (*varredura == NULL) {  //se meu elemento de 
+varredura for nulo 
+  arvore* NovoElemento = NULL; //criando um 
+novo elemento e definindo como nulo 
+  NovoElemento = (struct 
+arvore*)malloc(sizeof(struct arvore));  //alocando 
+novo elemento na memória 
+  NovoElemento->esq = NULL;  //setando meu 
+ponteiro da esquerda como nulo 
+  NovoElemento->dir = NULL;  //setando meu 
+ponteiro da direita como nulo 
+ 
+  NovoElemento->ru = ru;  //meu elemento do 
+registro->ru vai receber a variavel ru passada como 
+parâmetro 
+  printf("Digite o Nome:"); 
+  fflush(stdin);  //limpando o buffer 
+  fgets(NovoElemento->nome, 29, stdin);  
+//capturando o nome do aluno no registro 
+  printf("Digite o E-mail:"); 
+  fflush(stdin);  //limpando o buffer 
+  fgets(NovoElemento->email, 29, stdin);  
+//capturando o email do aluno no registro 
+ 
+  *varredura = NovoElemento;  //elemento da 
+varredura recebe meu novo elemento 
+  return; 
+  
+ } 
+ if (ru < (*varredura)->ru) {  //se me ru for menor 
+que meu elemento de varredura->ru 
+  inserir(&(*varredura)->esq, ru );  //chama a 
+função recursiva e passa como parâmetro o ponteiro da 
+esquerda 
+  
+ } 
+ else { //se não 
+  if (ru > (*varredura)->ru) {//se me ru for 
+maior que meu elemento de varredura->ru 
+   inserir(&(*varredura)->dir, ru); //chama 
+a função recursiva e passa como parâmetro o ponteiro 
+da direita 
+ 
+  } 
+  
+  
+ } 
+ 
+} 
+void consultar(struct arvore *varredura) { //criando 
+função de consulta 
+ if (varredura)  //se varredura for verdadeira 
+ { 
+  consultar(varredura->esq);  //chama função 
+recursiva e passa como parâmetro o ponteiro da 
+esquerda 
+  printf("-RU: %d\n", varredura->ru);//imprime 
+na tela o ru 
+  printf("\n"); 
+  printf(" Nome: %s\n", varredura->nome);//o 
+nome 
+  printf(" Email: %s\n\n", varredura-
+>email);//e o email 
+  consultar(varredura->dir);//chama a função 
+recursiva e passa como parâmetro o ponteiro da direita 
+ } 
+ 
+ 
+ 
+} 
+int busca(struct arvore *varredura, int ru) { 
+//criando função de busca 
+ if (varredura == NULL) {  //se meu elemento de 
+varredura for nulo  
+  printf("\nAluno inexistente no sistema!\n.");  
+//imprima na tela que não existe esse aluno no sistema 
+ } 
+ else {//se não 
+   
+  if (varredura->ru == ru) { //se meu elemento 
+de de varredura->ru for igual ao parâmetro ru 
+   printf("\n-Nome: %s\n", varredura->nome);  
+//imprime na tela o nome 
+   printf("-Email: %s\n", varredura->email);  
+//e o email referente aquele ru 
+  } 
+  else { //se não 
+   if (ru < varredura->ru) {//se ru for 
+menor que varredura->ru 
+    return busca(varredura->esq, ru); 
+//retorne a chamada da função recursiva e passa como 
+parâmetro o ponteiro da esquerda 
+    
+   } 
+   else {//se ru for maior que varredura->ru 
+     
+    return busca(varredura->dir, ru); 
+//retorne a chamada da função recursiva e passa como 
+parâmetro o ponteiro da direita 
+   } 
+   
+  } 
+  
+ } 
+}
